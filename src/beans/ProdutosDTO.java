@@ -47,4 +47,8 @@ public class ProdutosDTO {
         this.status = status;
     }
     
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }

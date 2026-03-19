@@ -1,21 +1,43 @@
 package forms;
 
-
 import dao.ProdutosDAO;
 import beans.ProdutosDTO;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Adm
  */
 public class listagemVIEW extends javax.swing.JFrame {
+
+    private void preencherTabela() {
+        ProdutosDAO empresaDAO = new ProdutosDAO();
+
+        List<ProdutosDTO> listaProdutos = empresaDAO.listarProdutos();
+
+        DefaultTableModel modelo = (DefaultTableModel) tblProdutos.getModel();
+        modelo.setNumRows(0);
+
+        tblProdutos.setRowSorter(new TableRowSorter<>(modelo));
+
+        for (ProdutosDTO c : listaProdutos) { //em cada volta do laço for, o mesmo adiciona uma dado(empresa) dentro do objeto c
+            Object[] obj = new Object[]{
+                c.getId(), //id
+                c.getNome(), //nomeempresa
+                c.getValor(), //areadeatuacao    
+                c.getStatus()
+            };
+            modelo.addRow(obj);
+        }
+    }
 
     /**
      * Creates new form listagemVIEW
@@ -23,6 +45,7 @@ public class listagemVIEW extends javax.swing.JFrame {
     public listagemVIEW() {
         initComponents();
         listarProdutos();
+        preencherTabela();
     }
 
     /**
@@ -35,7 +58,7 @@ public class listagemVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaProdutos = new javax.swing.JTable();
+        tblProdutos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -47,7 +70,7 @@ public class listagemVIEW extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        listaProdutos.setModel(new javax.swing.table.DefaultTableModel(
+        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,7 +81,7 @@ public class listagemVIEW extends javax.swing.JFrame {
                 "ID", "Nome", "Valor", "Status"
             }
         ));
-        jScrollPane1.setViewportView(listaProdutos);
+        jScrollPane1.setViewportView(tblProdutos);
 
         jLabel1.setFont(new java.awt.Font("Lucida Fax", 0, 18)); // NOI18N
         jLabel1.setText("Lista de Produtos");
@@ -141,9 +164,9 @@ public class listagemVIEW extends javax.swing.JFrame {
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         String id = id_produto_venda.getText();
-        
+
         ProdutosDAO produtosdao = new ProdutosDAO();
-        
+
         //produtosdao.venderProduto(Integer.parseInt(id));
         listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
@@ -202,19 +225,19 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable listaProdutos;
+    private javax.swing.JTable tblProdutos;
     // End of variables declaration//GEN-END:variables
 
-    private void listarProdutos(){
+    private void listarProdutos() {
         try {
             ProdutosDAO produtosdao = new ProdutosDAO();
-            
-            DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
+
+            DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
             model.setNumRows(0);
-            
+
             ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
-            
-            for(int i = 0; i < listagem.size(); i++){
+
+            for (int i = 0; i < listagem.size(); i++) {
                 model.addRow(new Object[]{
                     listagem.get(i).getId(),
                     listagem.get(i).getNome(),
@@ -224,6 +247,6 @@ public class listagemVIEW extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-    
+
     }
 }
