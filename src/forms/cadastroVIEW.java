@@ -61,7 +61,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
             }
         });
 
-        btnSalvar.setText("Salvar");
+        btnSalvar.setText("Cadastrar");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);

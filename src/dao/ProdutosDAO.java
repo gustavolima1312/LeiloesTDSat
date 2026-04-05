@@ -69,5 +69,24 @@ public class ProdutosDAO {
         }
         return listagem;
     }
+    
+    public void venderProduto(int id) {
+        // Comando SQL para atualizar apenas o status onde o ID for igual ao informado
+        String sql = "UPDATE produtos SET status = ? WHERE id = ?";
+        
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            
+            // Substitui as interrogações pelos valores
+            stmt.setString(1, "Vendido");
+            stmt.setInt(2, id);
+            
+            stmt.execute();
+            javax.swing.JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+            
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
+        }
+    }
 
 }

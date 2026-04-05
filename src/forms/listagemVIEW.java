@@ -61,8 +61,8 @@ public class listagemVIEW extends javax.swing.JFrame {
         tblProdutos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        id_produto_venda = new javax.swing.JTextPane();
+        venda = new javax.swing.JScrollPane();
+        txtVenda = new javax.swing.JTextPane();
         btnVender = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         btnVendas = new javax.swing.JButton();
@@ -89,7 +89,7 @@ public class listagemVIEW extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Lucida Fax", 0, 14)); // NOI18N
         jLabel2.setText("Vender Produto (ID)");
 
-        jScrollPane2.setViewportView(id_produto_venda);
+        venda.setViewportView(txtVenda);
 
         btnVender.setText("Vender");
         btnVender.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +122,7 @@ public class listagemVIEW extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(venda, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnVender))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,7 +148,7 @@ public class listagemVIEW extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(venda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVender))
                 .addGap(29, 29, 29)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,12 +163,25 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-
-        ProdutosDAO produtosdao = new ProdutosDAO();
-
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+try {
+            // Pega o ID digitado no campo de texto e converte para número inteiro
+            // IMPORTANTE: Substitua "txtIdProduto" pelo nome exato da variável do seu campo de texto!
+            int id = Integer.parseInt(txtVenda.getText()); 
+            
+            // Instancia o DAO e chama o método que acabamos de criar
+            ProdutosDAO produtosdao = new ProdutosDAO();
+            produtosdao.venderProduto(id);
+            listarProdutos();
+            txtVenda.setText("");
+            
+            // Aqui você chama o método que preenche a sua tabela de novo para dar o "refresh"
+            // Se o seu método se chamar listarProdutos(), é só descomentar a linha abaixo:
+            // listarProdutos();
+            
+        } catch (NumberFormatException e) {
+            // Se o usuário digitar letras em vez de números no ID, o programa não quebra
+            javax.swing.JOptionPane.showMessageDialog(null, "Por favor, digite um ID numérico válido.");
+        }
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -219,13 +232,13 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JButton btnVendas;
     private javax.swing.JButton btnVender;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JTextPane id_produto_venda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tblProdutos;
+    private javax.swing.JTextPane txtVenda;
+    private javax.swing.JScrollPane venda;
     // End of variables declaration//GEN-END:variables
 
     private void listarProdutos() {
