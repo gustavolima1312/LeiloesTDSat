@@ -69,24 +69,52 @@ public class ProdutosDAO {
         }
         return listagem;
     }
-    
+
     public void venderProduto(int id) {
         // Comando SQL para atualizar apenas o status onde o ID for igual ao informado
         String sql = "UPDATE produtos SET status = ? WHERE id = ?";
-        
+
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
-            
+
             // Substitui as interrogações pelos valores
             stmt.setString(1, "Vendido");
             stmt.setInt(2, id);
-            
+
             stmt.execute();
             javax.swing.JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
-            
+
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
         }
+    }
+
+    public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+        // O segredo está aqui: o WHERE filtra apenas os vendidos
+        String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+
+        ArrayList<ProdutosDTO> listagemVendidos = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setValor(rs.getInt("valor"));
+                produto.setStatus(rs.getString("status"));
+
+                listagemVendidos.add(produto);
+            }
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Erro ao listar produtos vendidos: " + e.getMessage());
+        }
+
+        return listagemVendidos;
     }
 
 }

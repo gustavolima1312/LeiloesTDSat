@@ -4,12 +4,15 @@
  */
 package forms;
 
+import beans.ProdutosDTO;
+import dao.ProdutosDAO;
+
 /**
  *
  * @author gusta
  */
 public class vendasVIEW extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vendasVIEW.class.getName());
 
     /**
@@ -17,6 +20,7 @@ public class vendasVIEW extends javax.swing.JFrame {
      */
     public vendasVIEW() {
         initComponents();
+        listarVendas();
     }
 
     /**
@@ -139,4 +143,32 @@ public class vendasVIEW extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable listaVendidos;
     // End of variables declaration//GEN-END:variables
+
+    private void listarVendas() {
+        try {
+            ProdutosDAO produtosdao = new ProdutosDAO();
+
+            // Pega o modelo da tabela que você nomeou como listaVendidos
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) listaVendidos.getModel();
+
+            // Zera a tabela antes de preencher para não duplicar
+            model.setNumRows(0);
+
+            // Chama o método novo que criamos no DAO
+            java.util.ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutosVendidos();
+
+            // Faz o loop para adicionar cada produto vendido como uma linha nova na tabela
+            for (int i = 0; i < listagem.size(); i++) {
+                model.addRow(new Object[]{
+                    listagem.get(i).getId(),
+                    listagem.get(i).getNome(),
+                    listagem.get(i).getValor(),
+                    listagem.get(i).getStatus()
+                });
+            }
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Erro na montagem da tabela: " + e.getMessage());
+        }
+    }
 }

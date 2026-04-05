@@ -163,21 +163,20 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-try {
+        try {
             // Pega o ID digitado no campo de texto e converte para número inteiro
             // IMPORTANTE: Substitua "txtIdProduto" pelo nome exato da variável do seu campo de texto!
-            int id = Integer.parseInt(txtVenda.getText()); 
-            
+            int id = Integer.parseInt(txtVenda.getText());
+
             // Instancia o DAO e chama o método que acabamos de criar
             ProdutosDAO produtosdao = new ProdutosDAO();
             produtosdao.venderProduto(id);
             listarProdutos();
             txtVenda.setText("");
-            
+
             // Aqui você chama o método que preenche a sua tabela de novo para dar o "refresh"
             // Se o seu método se chamar listarProdutos(), é só descomentar a linha abaixo:
             // listarProdutos();
-            
         } catch (NumberFormatException e) {
             // Se o usuário digitar letras em vez de números no ID, o programa não quebra
             javax.swing.JOptionPane.showMessageDialog(null, "Por favor, digite um ID numérico válido.");
@@ -185,7 +184,7 @@ try {
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        vendasVIEW vendas = new vendasVIEW(); 
+        vendasVIEW vendas = new vendasVIEW();
         vendas.setVisible(true);
     }//GEN-LAST:event_btnVendasActionPerformed
 
